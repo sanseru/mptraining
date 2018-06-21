@@ -1,0 +1,1121 @@
+proses soal
+================================================================
+<html>
+<head>
+<title>:::::Sistem Informasi Ujian Online:::::</title>
+</head>
+<body>
+<?php
+error_reporting(0);
+include("include/koneksi.php");
+$dua=mysql_query("select ujianke from nilai where nis='$_POST[n]' order by ujianke DESC limit 1");
+$r_dua=mysql_fetch_array($dua);
+$uk=$r_dua["ujianke"];
+$uks=$uk+1;
+$result=mysql_query("SELECT id_pertanyaan FROM pertanyaan WHERE kd_mapel='$_POST[md]'");
+$benar=0;
+$nomor_soal=1;
+while($row=mysql_fetch_array($result)){
+      $id=$row["id_pertanyaan"];
+      $q=q.$id;
+      if($_POST[$q] !=""){
+         $cekcek=mysql_query("SELECT * FROM pertanyaan WHERE kd_mapel ='$_POST[md]' and id_pertanyaan='$id'");
+	 $bariscek=mysql_fetch_array($cekcek);
+	 $question=$bariscek["pertanyaan"];
+	 $answer=$bariscek["jawaban"];
+	 $bariscekdua=$bariscek["kd_mapel"];
+	 $idd=$row["id_pertanyaan"];
+	 $qq=q.$idd;
+	 if($_POST[$qq]== $answer){
+	    $benar++;
+	    $menampilkanfile="$_POST[n]"."_"."$bariscekdua"."_"."$uks";
+	 }
+	 }
+	 }
+$jumlah=mysql_query("SELECT jmlh_soal FROM mapel WHERE kd_mapel='$_POST[md]'");
+$jumlah1=mysql_fetch_array($jumlah);
+$jumlah_soal=$jumlah1["jmlh_soal"];
+$salah=$jumlah_soal-$benar;
+$nilai=(100/$jumlah_soal*$benar);
+$result=mysql_query("SELECT * FROM siswa,mapel WHERE nis='$_POST[n]' AND kd_mapel='$_POST[md]'");
+$row=mysql_fetch_array($result);
+$modul=$row["nama_mapel"];
+$nama=$row["nama_siswa"];
+$tanggal=date("Y-m-d H:i:s");
+
+mysql_query("INSERT INTO nilai(id,kd_mapel,nama_mapel,nis,nama_siswa,salah,benar,jmlh_soal,nilai,tgl,ujianke,jam,menit,detik)
+VALUES ('','$_POST[md]','$modul','$_POST[n]','$nama','$salah','$benar','$jumlah_soal','$nilai','$tanggal','$uks','$_POST[jh]','$_POST[mh]',
+'$_POST[dh]')");
+echo"Data anda sudah tersimpan !     Lihat <a href='tampilnilai.php' style='text-decoration:none'>
+<input type='button' value='Tampil Nilai'></a><br></div>";
+?>
+</body>
+</html>
+==========================================
+tampil nilai
+===========================================
+
+<?php
+session_start();
+
+include "include/koneksi.php";
+echo "
+<br><br>
+<table border=8 cellpadding=1 cellspacing=1 width=80% color=green align=center>
+<tr bgcolor=green>
+    <td><font color=white>No</font></td>
+	 
+   
+	<td><font color=white>Nama Mapel<font</td>
+	<td><font color=white>Nis<font</td>
+	<td><font color=white>Nama Siswa<font</td>
+	<td><font color=white>Salah<font</td>
+	<td><font color=white>Benar<font</td>
+	
+	<td><font color=white>Nilai<font</td>
+	<td><font color=white>Tgl<font</td>
+	<td><font color=white>Ujian Ke<font</td>
+	
+  </tr>";
+  $sql="select * from nilai where nis='$_SESSION[username]'" or die (mysql_query());
+  $query=mysql_query($sql);
+  $no=1;
+  while($x=mysql_fetch_array($query))
+  {
+  echo "
+	<tr>
+		<td>$no</td>
+   
+	
+	<td>$x[nama_mapel]</td>
+	<td>$x[nis]</td>
+	<td>$x[nama_siswa]</td>
+	<td>$x[salah]</td>
+	<td>$x[benar]</td>
+	
+	<td>$x[nilai]</td>
+	<td>$x[tgl]</td>
+	<td>$x[ujianke]</td>";
+	
+		
+		
+		
+		
+		
+		echo "</td>
+	</tr>";
+	$no++; }
+	echo "</table>";
+
+
+?>
+====================================================
+tampil soal
+====================================================
+<?php session_start(); 
+error_reporting(0);
+
+include("include/koneksi.php");
+?>
+<html>
+<head>
+
+<script language='JavaScript' type='text/JavaScript'>
+var tenth='';function ninth() {
+if (document.all) {(tenth);alert("Tidak diperbolehkan Klik kanan"); return false;}}
+function twelfth(e) {
+if (document.layers||(document.getElementById&&!document.all)) {
+if (e.which==2||e.which==3) {(tenth);return false;}}}
+if (document.layers) {document.captureEvents(Event.MOUSEDOWN);document.onmousedown=twelfth;}
+else{document.onmouseup=twelfth;document.oncontextmenu=ninth;}
+document.oncontextmenu=new Function('alert("Tidak diperbolehkan Klik kanan"); return false')
+</script>
+
+<?php 
+//periksa berapa kali boleh ujian
+$tiga=mysql_query("SELECT ulang,jam,menit,detik from mapel 
+where kd_mapel='$_GET[kd_mapel]'");
+$rt=mysql_fetch_array($tiga);
+$max=$rt["ulang"];
+$menit=$rt["menit"];
+$jam=$rt["jam"];
+$detik=$rt["detik"];
+
+echo"
+<script language=\"Javascript\"><!--
+        var j = $jam
+		var m = $menit
+		var x = $detik
+		var jh = 0
+		var mh = 0
+		var xh = 0
+        var y = 1
+		
+        function startClock(){
+        xh=xh+y
+		x = x-y
+		
+        document.form1.detik.value =x
+		document.form1.menit.value =m
+		document.form1.jam.value =j
+		document.form1.dh.value =xh
+		document.form1.mh.value =mh
+		document.form1.jh.value =jh
+        setTimeout(\"startClock()\", 1000)
+        		if(j==0){
+				if(m==0){
+				if(x==0){
+				document.form1.submit.click();
+				}		  	 	
+		   	}else{
+				if(x==0){
+					m=m-y
+					x=$detik
+				}	
+			}		   
+		 }else{
+		   if(m==0){
+		   		j=j-y
+		   		m=$menit
+		   		x=$detik
+		   }else{
+		    if(x==0){
+				m=m-y
+					x=$detik
+			}
+		   }
+		 }
+		 
+		 if(xh==60){
+					if(mh<60){
+						mh=mh+yh
+						x=0
+					}else{
+						jh=jh+1
+						mh=0
+						xh=0
+					}
+				
+				}	 
+		 }	
+	</script>";
+	
+?>
+<title>::::::Sistem Informasi Ujian Online::::</title>
+</head>
+<body onLoad="startClock()" >
+<?
+//PERIKSA APAKAH USER SUDAH UJIAN ATAU BELUM
+$periksa=mysql_query("SELECT * FROM nilai where nis='$_SESSION[username]'
+AND kd_mapel='$_GET[kd_mapel]'");
+$periksa3=mysql_num_rows($periksa);
+$rp=mysql_fetch_array($periksa);
+if($periksa3 >=$max){
+echo"<center><B><H1>Maaf!!!!</H1></B></center>";
+echo"<center><B><H1>Batas Maksimal Mengerjakan Soal</H1></B></center>";
+echo"<center><B><H1><font color=red>$rp[kd_mapel] - $rp[nama_mapel]</font>
+adalah $max Kali Ujian</H1></B></center>";
+?>
+<br><br><hr><br>
+<center>
+<form>
+<a href='tampilmapel.php' style='text-decoration:none'><input type=button value='Close Window' onClick='javascript:window.close();'>
+</form> 
+</center>
+<? }else{ 
+$re = mysql_query ("SELECT * FROM pertanyaan WHERE 
+kd_mapel='$_GET[kd_mapel]'");
+$d=mysql_num_rows($re);
+
+if($d<1){ echo"<h2>Maaf Tidak ada soal yang di ujiankan</h2><a href='tampilmapel.php' style='text-decoration:none'><input type='button' name='batal' value='Back'>";}else{
+?>
+<form name="form1" method="post" action="proses_soal.php">
+<table width="100%"  border="0" cellpadding="0" cellspacing="1" 
+bgcolor="#00CCCC">
+  <tr>
+  	<?php
+  	$result=mysql_query("SELECT * FROM mapel WHERE 
+	kd_mapel='$_GET[kd_mapel]'");
+  	$baris=mysql_fetch_array($result);
+  	?>
+  	<td colspan="4">
+  	<div align="center" class="header style5">
+  	SOAL MODUL <?php echo"$_GET[kd_mapel]"; ?>
+  	</div>
+  	</td>
+  </tr>
+  <tr>
+    <td colspan="4">
+	<div align="center" class="header style5"><?php echo"$baris[nama_mapel]";?>
+	</div>
+	</td>
+  </tr>
+  <tr>
+    <td colspan="4" bgcolor="#00FFCC">
+	<input type="hidden" name="md" value="<?php echo"$_GET[kd_mapel]"; ?>">
+	<input type="hidden" name="n" value="<?php echo"$_SESSION[username]";?>">	</td>
+  </tr>
+  <tr>
+    <td colspan="4" bgcolor="#99FF00">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="4" bgcolor="#99FF00">
+
+	Waktu Anda Mengerjakan Soal Yaitu 
+      <input name="jam" type="text" id="jam" size="5" readonly="true">
+	  &nbsp;Jam &nbsp;
+      <input name="menit" type="text" id="menit" size="5" readonly="true">
+      &nbsp;Menit 
+      <input name="detik" type="text" id="detik" size="5" readonly="true"> 
+      Detik 
+      <input name="jh" type="hidden" id="jh">
+      <input name="mh" type="hidden" id="mh">
+      <input name="dh" type="hidden" id="dh"></td>
+  </tr>
+  <tr>
+    <td colspan="4" bgcolor="#99FF00">Selamat Bekerja :::Semoga Sukses:: </td>
+  </tr>
+  <?php 
+  $banyaksoal=mysql_query("SELECT jmlh_soal FROM mapel WHERE 
+  kd_mapel='$_GET[kd_mapel]'");
+  $banyaksoal1=mysql_fetch_array($banyaksoal);
+  $jmlh_soal=$banyaksoal1["jmlh_soal"];
+  $result = mysql_query ("SELECT * FROM pertanyaan 
+  WHERE kd_mapel='$_GET[kd_mapel]' ORDER BY RAND() LIMIT $jmlh_soal");
+  while (($row=mysql_fetch_array($result)) and ($num<=50)) {
+  	$id_pertanyaan = $row["id_pertanyaan"]; 
+	$kd_mapel=$row["kd_mapel"];
+	$pertanyaan = $row["pertanyaan"]; 
+	$jawaban=$row["jawaban"];
+	$pilihan1=$row["pilihan1"];
+	$pilihan2=$row["pilihan2"];
+	$pilihan3=$row["pilihan3"];
+	$pilihan4=$row["pilihan4"];
+	$input=array($pilihan1,$pilihan2,$pilihan3,$pilihan4,$jawaban);
+	sort($input, SORT_STRING);
+	srand ((float)microtime()*1000000);
+	shuffle($input);
+	 
+ ?>
+<tr bgcolor="#BCDEFF">
+	<td width="4%" height="30" bgcolor="#66FFFF"> 
+	<?php $num++; echo"$num"; ?>
+    <input name="nomor" type="hidden" id="nomor" value="<?php  echo"$num";?>">	</td>
+	<td height="30" colspan="3" bgcolor="#66FFFF">
+	<?php echo"$pertanyaan";?>	</td>
+</tr>
+	<?php for ($j = 0; $j < 5; $j++){ $a=$input[$j];?>
+<tr bgcolor="#99CCFF">
+    <td height="30" bgcolor="#99FF00">	</td>
+    <td width="2%" height="30" bgcolor="#99FF00">
+	<input name="<?php echo"q$id_pertanyaan"; ?>" type="radio" value="<?php echo $a;?>">
+	</td>
+    <td width="84%" height="30" bgcolor="#66FFFF">
+	<?php echo $a;?>	</td>
+    <td width="10%" bgcolor="#99FF00">	</td>
+</tr>
+  <?php } ?>  
+<tr bgcolor="#99CCFF">
+    <td height="30" bgcolor="#99FF00">	</td>
+    <td height="30" bgcolor="#99FF00">
+	  <input name="<?php echo"q$id_pertanyaan"; ?>" type="radio"  value="Tidak Menjawab" checked >
+	</td>
+    <td height="30" bgcolor="#66FFFF">
+	Tidak Menjawab	</td>
+    <td height="30" bgcolor="#99FF00">	</td>
+</tr>
+<tr>
+     <td height="16" colspan="2" bgcolor="#99FF00"></td>
+     <td height="16" colspan="2" bgcolor="#99FF00">&nbsp;</td>
+</tr>
+<?php }?>
+<tr>
+    <td height="10" colspan="2" bgcolor="#99FF00">	</td>
+    <td height="10" colspan="2" bgcolor="#99FF00">
+	<input type="submit" name="submit" value="submit">	
+	<a href='tampilmapel.php' style='text-decoration:none'><input type="button" name="batal" value="batal">	</td>
+</tr>  
+</table>
+</form> 
+<? }} ?>
+</body>
+</html>
+=====================================
+tampil mapel siswa
+=====================================
+<?php
+session_start();
+if (isset($_SESSION['level']) && isset($_SESSION['username']) && isset($_SESSION['nama_siswa']))
+{
+
+if ($_SESSION['level'] == "siswa")
+   {
+include "include/koneksi.php";
+echo "
+<marquee direction='left' behavior='alternate'><font  size='4' >Silahkan Pilih Mata Pelajaran Yang Ingin Diujikan !!!!!</font></marquee>
+
+<br><br>
+<table border=8 cellpadding=1 cellspacing=1 width=70% color=green align=center>
+<tr bgcolor=green>
+    <td><font color=white>No</font></td>
+    
+	<td width=8><font color=white>Nama  Mapel<font</td>
+	
+	
+	<td><font color=white>Ulang<font</td>
+	<td><font color=white>Waktu<font</td>
+	<td><font color=white>Aksi<font</td>
+  </tr>";
+  $sql="select * from mapel";
+  $query=mysql_query($sql);
+  $no=1;
+  while($x=mysql_fetch_array($query))
+  {
+  echo "
+	<tr>
+		<td>$no</td>
+    
+	<td>$x[nama_mapel]</td>
+	
+	
+	<td>$x[ulang]</td>
+	<td>$x[jam] : $x[menit] : $x[detik]</td>
+		<td><a href='tampil_soal.php?kd_mapel=$x[kd_mapel]'>
+		<img src='images/button-view.gif' /> <font color='blue'><b>Ujian</b> <font></a>
+		
+		";
+		
+		
+		
+		
+		echo "</td>
+	</tr>";
+	$no++; }
+	echo "</table>";
+
+}
+   else
+   {
+       // jika levelnya bukan admin, tampilkan pesan
+       echo "<h1>Maaf.. Anda bukan user berlevel siswa</h1>";
+   }
+}
+else
+{
+   echo "<h1>Nah.. siapa looo.. login dong!</h1>";
+}
+?>
+==============================================================
+cetak mapel admin
+==============================================================
+<?php session_start(); 
+error_reporting(0);
+
+include("include/koneksi.php");
+?>
+<html>
+<head>
+
+<script language='JavaScript' type='text/JavaScript'>
+var tenth='';function ninth() {
+if (document.all) {(tenth);alert("Tidak diperbolehkan Klik kanan"); return false;}}
+function twelfth(e) {
+if (document.layers||(document.getElementById&&!document.all)) {
+if (e.which==2||e.which==3) {(tenth);return false;}}}
+if (document.layers) {document.captureEvents(Event.MOUSEDOWN);document.onmousedown=twelfth;}
+else{document.onmouseup=twelfth;document.oncontextmenu=ninth;}
+document.oncontextmenu=new Function('alert("Tidak diperbolehkan Klik kanan"); return false')
+<link rel="stylesheet" type="text/css" href="laporan.css" />
+</script>
+
+<?php 
+//periksa berapa kali boleh ujian
+$tiga=mysql_query("SELECT ulang,jam,menit,detik from mapel 
+where kd_mapel='$_GET[kd_mapel]'");
+$rt=mysql_fetch_array($tiga);
+$max=$rt["ulang"];
+$menit=$rt["menit"];
+$jam=$rt["jam"];
+$detik=$rt["detik"];
+
+echo"
+<script language=\"Javascript\"><!--
+        var j = $jam
+		var m = $menit
+		var x = $detik
+		var jh = 0
+		var mh = 0
+		var xh = 0
+        var y = 1
+		
+        function startClock(){
+        xh=xh+y
+		x = x-y
+		
+        document.form1.detik.value =x
+		document.form1.menit.value =m
+		document.form1.jam.value =j
+		document.form1.dh.value =xh
+		document.form1.mh.value =mh
+		document.form1.jh.value =jh
+        setTimeout(\"startClock()\", 1000)
+        		if(j==0){
+				if(m==0){
+				if(x==0){
+				document.form1.submit.click();
+				}		  	 	
+		   	}else{
+				if(x==0){
+					m=m-y
+					x=$detik
+				}	
+			}		   
+		 }else{
+		   if(m==0){
+		   		j=j-y
+		   		m=$menit
+		   		x=$detik
+		   }else{
+		    if(x==0){
+				m=m-y
+					x=$detik
+			}
+		   }
+		 }
+		 
+		 if(xh==60){
+					if(mh<60){
+						mh=mh+yh
+						x=0
+					}else{
+						jh=jh+1
+						mh=0
+						xh=0
+					}
+				
+				}	 
+		 }	
+	</script>";
+	
+?>
+<title>::::::Sistem Informasi Ujian Online::::</title>
+</head>
+<body onLoad="startClock()" >
+<?
+//PERIKSA APAKAH USER SUDAH UJIAN ATAU BELUM
+$periksa=mysql_query("SELECT * FROM nilai WHERE nis='1' 
+AND kd_mapel='$_GET[kd_mapel]'");
+$periksa3=mysql_num_rows($periksa);
+$rp=mysql_fetch_array($periksa);
+if($periksa3 >=$max){
+echo"<center><B><H1>Maaf!!!!</H1></B></center>";
+echo"<center><B><H1>Batas Maksimal Mengerjakan Soal</H1></B></center>";
+echo"<center><B><H1><font color=red>$rp[kd_mapel] - $rp[nama_mapel]</font>
+adalah $max Kali Ujian</H1></B></center>";
+?>
+<br><br><hr><br>
+<center>
+<form>
+<input type=button value='Close Window' onClick='javascript:window.close();'>
+</form> 
+</center>
+<? }else{ 
+$re = mysql_query ("SELECT * FROM nilai WHERE 
+kd_mapel='$_GET[kd_mapel]'");
+$d=mysql_num_rows($re);
+
+if($d<1){ echo"<b><h2>Maaf Tidak ada nilai yang dicetak</h2></b><a href='lap.php' style='text-decoration:none'><input type='button' name='batal' value='Back'>";}else{
+?>
+
+
+  <tr>
+  	<?php
+  	$result=mysql_query("SELECT * FROM mapel WHERE 
+	kd_mapel='$_GET[kd_mapel]'");
+  	$baris=mysql_fetch_array($result);
+  	?>
+  	
+  </tr><link rel="stylesheet" type="text/css" href="laporan.css" /><script language="JavaScript">
+var gAutoPrint = true; // Tells whether to automatically call the print function
+
+function printSpecial()
+{
+if (document.getElementById != null)
+{
+var html = '<HTML>\n<HEAD>\n';
+
+if (document.getElementsByTagName != null)
+{
+var headTags = document.getElementsByTagName("head");
+if (headTags.length > 0)
+html += headTags[0].innerHTML;
+}
+
+html += '\n</HE>\n<BODY>\n';
+
+var printReadyElem = document.getElementById("printReady");
+
+if (printReadyElem != null)
+{
+html += printReadyElem.innerHTML;
+}
+else
+{
+alert("Could not find the printReady function");
+return;
+}
+
+html += '\n</BO>\n</HT>';
+
+var printWin = window.open("","printSpecial");
+printWin.document.open();
+printWin.document.write(html);
+printWin.document.close();
+if (gAutoPrint)
+printWin.print();
+}
+else
+{
+alert("The print ready feature is only available if you are using an browser. Please update your browswer.");
+}
+}
+
+</script>
+</head>
+
+<body>
+ <div align="center">
+<a href="javascript:void(printSpecial())"> <img src="../image/Printer.png" height="50" width="50" /></a><br />
+<a href="lap.php">Kembali</a>
+</div>
+<div id="printReady">
+<div id="sampul">
+	<div id="header">
+    	<div id="logo">
+        <img src="../image/logo.jpg" height="90" height="90" />
+        </div>
+        <div id="sekolah">
+       <b> DINAS PENDIDIKAN PEMUDA DAN OLAH RAGA <BR /> SEKOLAH MENENGAH KEJURUAN<br  />SMK Negeri 1 Tanjung<br />Alamat : Jln. Karang Sobor Sokong, Kec. Tanjung, KLU.<br/>Email: smkn1tanjung_klu@yahoo.co.id<br><br>
+        
+  
+  <?php
+session_start();
+if (isset($_SESSION['level']) && isset($_SESSION['username']) && isset($_SESSION['nama']))
+{
+
+if ($_SESSION['level'] == "admin")
+   {
+include "include/koneksi.php";
+echo "
+
+
+<table border=0 cellpadding=1 cellspacing=0 width=20% color=green align=center>
+<tr bgcolor=green>
+    
+	
+  </tr>";
+ 
+   $sql="select * from mapel,admin_guru WHERE kd_mapel='$_GET[kd_mapel]'AND mapel.nik=admin_guru.nik ";
+  $query=mysql_query($sql);
+  $no=1;
+  while($x=mysql_fetch_array($query))
+  {
+  echo "
+	<tr>
+	
+    
+	<td>Pelajaran &nbsp; : $x[nama_mapel]</td>
+	<tr><td>Guru &nbsp;: $x[nama]</td>
+	
+	
+		
+		
+		";
+		
+		
+		
+		
+		echo "</td>
+	</tr>";
+	$no++; }
+	echo "</table>";
+
+}
+   else
+   {
+       // jika levelnya bukan admin, tampilkan pesan
+       echo "<h1>Maaf.. Anda bukan user berlevel Administrator</h1>";
+   }
+}
+else
+{
+   echo "<h1>Nah.. siapa looo.. login dong!</h1>";
+}
+?>
+ 
+  
+  <?php 
+  $banyaksoal=mysql_query("SELECT jmlh_soal FROM mapel WHERE 
+  kd_mapel='$_GET[kd_mapel]'");
+  $banyaksoal1=mysql_fetch_array($banyaksoal);
+  $jmlh_soal=$banyaksoal1["jmlh_soal"];
+  $result = mysql_query ("SELECT * FROM nilai
+  WHERE kd_mapel='$_GET[kd_mapel]' ORDER BY RAND() LIMIT $jmlh_soal");
+  while (($row=mysql_fetch_array($result)) and ($num<=50)) {
+  	$id = $row["id"]; 
+	$kd_mapel=$row["kd_mapel"];
+	$nama_mapel = $row["nama_mapel"]; 
+	$nis=$row["nis"];
+	$nama_siswa=$row["nama_siswa"];
+	$salah=$row["salah"];
+	$benar=$row["benar"];
+	$nilai=$row["nilai"];
+	
+ ?>
+
+	<?php for ($j = 0; $j < 5; $j++){ $a=$input[$j];?>
+
+  <?php } ?>  
+
+
+<?php }?>
+
+</table>
+</form> 
+<? }} ?>
+</body>
+</html>
+<?php
+session_start();
+
+include "include/koneksi.php";
+echo "
+<br><br>
+<table border=1 cellpadding=1 cellspacing=1 width=100% color=green align=center>
+<tr bgcolor=green>
+    <td><font color=white>No</font></td>
+	 
+    
+	
+	<td><font color=white>Nis<font</td>
+	<td><font color=white>Nama Siswa<font</td>
+	<td><font color=white>Salah<font</td>
+	<td><font color=white>Benar<font</td>
+	<td><font color=white>Jumlah Soal<font</td>
+	<td><font color=white>Nilai<font</td>
+	<td><font color=white>Tgl<font</td>
+	
+  </tr>";
+  $sql="select * from nilai  WHERE kd_mapel='$_GET[kd_mapel]' ";
+  $query=mysql_query($sql);
+  $no=1;
+  while($x=mysql_fetch_array($query))
+  {
+  echo "
+	<tr>
+		<td>$no</td>
+  
+	
+
+	<td>$x[nis]</td>
+	<td>$x[nama_siswa]</td>
+	<td>$x[salah]</td>
+	<td>$x[benar]</td>
+	<td>$x[jmlh_soal]</td>
+	<td>$x[nilai]</td>
+	<td>$x[tgl]
+	
+	
+		</td>";
+		
+		
+		
+		
+		echo "</td>
+	</tr>";
+	$no++; }
+	echo "</table>";
+
+
+?><br><br><br>
+ <div style="width: 300px; float: left; text-align: center; font-size: 13px;">
+        <br><br>Guru Mapel, <br/><br/><br/><br/>
+        
+        
+          <?php
+session_start();
+if (isset($_SESSION['level']) && isset($_SESSION['username']) && isset($_SESSION['nama']))
+{
+
+if ($_SESSION['level'] == "admin")
+   {
+include "include/koneksi.php";
+echo "
+
+
+<table border=0 cellpadding=1 cellspacing=0 width=20% color=green align=center>
+<tr bgcolor=green>
+    
+	
+  </tr>";
+ 
+   $sql="select * from mapel,admin_guru WHERE kd_mapel='$_GET[kd_mapel]'AND mapel.nik=admin_guru.nik ";
+  $query=mysql_query($sql);
+  $no=1;
+  while($x=mysql_fetch_array($query))
+  {
+  echo "
+	
+	
+   
+	( $x[nama] )
+	
+	
+		
+		
+		";
+		
+		
+		
+		
+		echo "</td>
+	</tr>";
+	$no++; }
+	echo "</table>";
+
+}
+   else
+   {
+       // jika levelnya bukan admin, tampilkan pesan
+       echo "<h1>Maaf.. Anda bukan user berlevel Administrator</h1>";
+   }
+}
+else
+{
+   echo "<h1>Nah.. siapa looo.. login dong!</h1>";
+}
+?>
+    </div><div style="width: 300px; float: right; text-align: center; font-size: 13px;">
+          <br/><br/>
+        Kepala Sekolah, <br/><br/><br/><br/> 
+        ( EFENDI, S.Pd., M.Pd )
+    </div>
+===========================================================
+ubah Password
+====================================================
+<?php
+session_start();
+include "../include/koneksi.php";
+if (isset($_SESSION['level']) && isset($_SESSION['username']) && isset($_SESSION['nama']))
+{
+	if($_SESSION['level']=="guru")
+	{
+		if(isset($_POST['ubah']))
+	{
+	$passlama = $_POST['passlama'];
+	$passbaru = $_POST['passbaru'];
+	$konfpassbaru = $_POST['konfpassbaru'];
+	// mengambil isi record tabel user
+	$sql_ubah = "SELECT * FROM admin_guru WHERE nik='$_SESSION[username]'";
+	$query_ubah = mysql_query($sql_ubah) or die (mysql_error());
+	$eks_qr_ubah = mysql_fetch_array($query_ubah);
+	 
+	// cek kesesuaian password
+	$passenkripsi=md5($passlama);
+		if ($passenkripsi == $eks_qr_ubah['password'])
+		{
+			if($passbaru==$konfpassbaru)
+			{
+			$enkripsipassbaru=md5($passbaru);
+			$sql_update="UPDATE admin_guru SET password='$enkripsipassbaru' WHERE nik='$_SESSION[username]'";
+			$qry_update=mysql_query($sql_update);
+				if($qry_update)
+				{
+				echo "<script language='javascript'>alert('Ubah Password Berhasil !');window.location='logout.php'</script>";
+				}else
+				{
+				echo "<script language='javascript'>alert('Ubah Password Gagal !');</script>";
+				}
+			}else
+			{
+			echo "<script language='javascript'>alert('Password baru dengan konfirmasi password baru tidak cocok!');</script>";
+			}
+		}else
+		{
+		echo "<script language='javascript'>alert('Password lama anda salah!');</script>";
+		}
+	}
+?>
+<div id="konten-body">
+	<label><form name="pengumuman" action="" method="post" enctype="multipart/form-data" class="tabel2" >
+		<table align="center" border="8" cellpadding="0" cellspacing="4" width="40%">
+			<tr>
+				<td><span>Password Lama</span></td>
+			</tr>
+			<tr>
+				<td><input type="password" name="passlama" size="30" maxlength="10" /></td>
+			</tr>
+			<tr>
+				<td><span>Password Baru</span></td>
+			</tr>
+			<tr>
+				<td><input type="password" name="passbaru" size="30" maxlength="10" /></td>
+			</tr>
+			<tr>
+				<td><span>Konfirmasi Password Baru</span></td>
+			</tr>
+			<tr>
+				<td><input type="password" name="konfpassbaru" size="30" maxlength="10" /></td>
+			</tr>
+			<tr>
+				<td>
+				<input type="submit" name="ubah" value="Ubah" class="button" />
+				<input type="button" onClick="history.go(-1);" class="button" value="Batal" />
+				</td>
+			</tr>
+		</table>
+	</form>
+    </label>
+</div>
+	<?php
+	}
+	else
+	{
+	echo "<script language='javascript'>;window.location='../$_SESSION[level]';</script>";
+	}
+}else
+{
+echo "<script language='javascript'>window.location='../';</script>";
+}
+?>
+=========================================================================
+tampil nilai
+========================================================
+<?php session_start(); 
+error_reporting(0);
+
+include("include/koneksi.php");
+?>
+<html>
+<head>
+
+<script language='JavaScript' type='text/JavaScript'>
+var tenth='';function ninth() {
+if (document.all) {(tenth);alert("Tidak diperbolehkan Klik kanan"); return false;}}
+function twelfth(e) {
+if (document.layers||(document.getElementById&&!document.all)) {
+if (e.which==2||e.which==3) {(tenth);return false;}}}
+if (document.layers) {document.captureEvents(Event.MOUSEDOWN);document.onmousedown=twelfth;}
+else{document.onmouseup=twelfth;document.oncontextmenu=ninth;}
+document.oncontextmenu=new Function('alert("Tidak diperbolehkan Klik kanan"); return false')
+</script>
+
+<?php 
+//periksa berapa kali boleh ujian
+$tiga=mysql_query("SELECT ulang,jam,menit,detik from mapel 
+where kd_mapel='$_GET[kd_mapel]'");
+$rt=mysql_fetch_array($tiga);
+$max=$rt["ulang"];
+$menit=$rt["menit"];
+$jam=$rt["jam"];
+$detik=$rt["detik"];
+
+echo"
+<script language=\"Javascript\"><!--
+        var j = $jam
+		var m = $menit
+		var x = $detik
+		var jh = 0
+		var mh = 0
+		var xh = 0
+        var y = 1
+		
+        function startClock(){
+        xh=xh+y
+		x = x-y
+		
+        document.form1.detik.value =x
+		document.form1.menit.value =m
+		document.form1.jam.value =j
+		document.form1.dh.value =xh
+		document.form1.mh.value =mh
+		document.form1.jh.value =jh
+        setTimeout(\"startClock()\", 1000)
+        		if(j==0){
+				if(m==0){
+				if(x==0){
+				document.form1.submit.click();
+				}		  	 	
+		   	}else{
+				if(x==0){
+					m=m-y
+					x=$detik
+				}	
+			}		   
+		 }else{
+		   if(m==0){
+		   		j=j-y
+		   		m=$menit
+		   		x=$detik
+		   }else{
+		    if(x==0){
+				m=m-y
+					x=$detik
+			}
+		   }
+		 }
+		 
+		 if(xh==60){
+					if(mh<60){
+						mh=mh+yh
+						x=0
+					}else{
+						jh=jh+1
+						mh=0
+						xh=0
+					}
+				
+				}	 
+		 }	
+	</script>";
+	
+?>
+<title>::::::Sistem Informasi Ujian Online::::</title>
+</head>
+<body onLoad="startClock()" >
+<?
+//PERIKSA APAKAH USER SUDAH UJIAN ATAU BELUM
+$periksa=mysql_query("SELECT * FROM nilai where nis='$_SESSION[username]'
+AND kd_mapel='$_GET[kd_mapel]'");
+$periksa3=mysql_num_rows($periksa);
+$rp=mysql_fetch_array($periksa);
+if($periksa3 >=$max){
+echo"<center><B><H1>Maaf!!!!</H1></B></center>";
+echo"<center><B><H1>Batas Maksimal Mengerjakan Soal</H1></B></center>";
+echo"<center><B><H1><font color=red>$rp[kd_mapel] - $rp[nama_mapel]</font>
+adalah $max Kali Ujian</H1></B></center>";
+?>
+<br><br><hr><br>
+<center>
+<form>
+<a href='tampilmapel.php' style='text-decoration:none'><input type=button value='Close Window' onClick='javascript:window.close();'>
+</form> 
+</center>
+<? }else{ 
+$re = mysql_query ("SELECT * FROM pertanyaan WHERE 
+kd_mapel='$_GET[kd_mapel]'");
+$d=mysql_num_rows($re);
+
+if($d<1){ echo"<h2>Maaf Tidak ada soal yang di ujiankan</h2><a href='tampilmapel.php' style='text-decoration:none'><input type='button' name='batal' value='Back'>";}else{
+?>
+<form name="form1" method="post" action="proses_soal.php">
+<table width="100%"  border="0" cellpadding="0" cellspacing="1" 
+bgcolor="#00CCCC">
+  <tr>
+  	<?php
+  	$result=mysql_query("SELECT * FROM mapel WHERE 
+	kd_mapel='$_GET[kd_mapel]'");
+  	$baris=mysql_fetch_array($result);
+  	?>
+  	<td colspan="4">
+  	<div align="center" class="header style5">
+  	SOAL MODUL <?php echo"$_GET[kd_mapel]"; ?>
+  	</div>
+  	</td>
+  </tr>
+  <tr>
+    <td colspan="4">
+	<div align="center" class="header style5"><?php echo"$baris[nama_mapel]";?>
+	</div>
+	</td>
+  </tr>
+  <tr>
+    <td colspan="4" bgcolor="#00FFCC">
+	<input type="hidden" name="md" value="<?php echo"$_GET[kd_mapel]"; ?>">
+	<input type="hidden" name="n" value="<?php echo"$_SESSION[username]";?>">	</td>
+  </tr>
+  <tr>
+    <td colspan="4" bgcolor="#99FF00">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="4" bgcolor="#99FF00">
+
+	Waktu Anda Mengerjakan Soal Yaitu 
+      <input name="jam" type="text" id="jam" size="5" readonly="true">
+	  &nbsp;Jam &nbsp;
+      <input name="menit" type="text" id="menit" size="5" readonly="true">
+      &nbsp;Menit 
+      <input name="detik" type="text" id="detik" size="5" readonly="true"> 
+      Detik 
+      <input name="jh" type="hidden" id="jh">
+      <input name="mh" type="hidden" id="mh">
+      <input name="dh" type="hidden" id="dh"></td>
+  </tr>
+  <tr>
+    <td colspan="4" bgcolor="#99FF00">Selamat Bekerja :::Semoga Sukses:: </td>
+  </tr>
+  <?php 
+  $banyaksoal=mysql_query("SELECT jmlh_soal FROM mapel WHERE 
+  kd_mapel='$_GET[kd_mapel]'");
+  $banyaksoal1=mysql_fetch_array($banyaksoal);
+  $jmlh_soal=$banyaksoal1["jmlh_soal"];
+  $result = mysql_query ("SELECT * FROM pertanyaan 
+  WHERE kd_mapel='$_GET[kd_mapel]' ORDER BY RAND() LIMIT $jmlh_soal");
+  while (($row=mysql_fetch_array($result)) and ($num<=50)) {
+  	$id_pertanyaan = $row["id_pertanyaan"]; 
+	$kd_mapel=$row["kd_mapel"];
+	$pertanyaan = $row["pertanyaan"]; 
+	$jawaban=$row["jawaban"];
+	$pilihan1=$row["pilihan1"];
+	$pilihan2=$row["pilihan2"];
+	$pilihan3=$row["pilihan3"];
+	$pilihan4=$row["pilihan4"];
+	$input=array($pilihan1,$pilihan2,$pilihan3,$pilihan4,$jawaban);
+	sort($input, SORT_STRING);
+	srand ((float)microtime()*1000000);
+	shuffle($input);
+	 
+ ?>
+<tr bgcolor="#BCDEFF">
+	<td width="4%" height="30" bgcolor="#66FFFF"> 
+	<?php $num++; echo"$num"; ?>
+    <input name="nomor" type="hidden" id="nomor" value="<?php  echo"$num";?>">	</td>
+	<td height="30" colspan="3" bgcolor="#66FFFF">
+	<?php echo"$pertanyaan";?>	</td>
+</tr>
+	<?php for ($j = 0; $j < 5; $j++){ $a=$input[$j];?>
+<tr bgcolor="#99CCFF">
+    <td height="30" bgcolor="#99FF00">	</td>
+    <td width="2%" height="30" bgcolor="#99FF00">
+	<input name="<?php echo"q$id_pertanyaan"; ?>" type="radio" value="<?php echo $a;?>">
+	</td>
+    <td width="84%" height="30" bgcolor="#66FFFF">
+	<?php echo $a;?>	</td>
+    <td width="10%" bgcolor="#99FF00">	</td>
+</tr>
+  <?php } ?>  
+<tr bgcolor="#99CCFF">
+    <td height="30" bgcolor="#99FF00">	</td>
+    <td height="30" bgcolor="#99FF00">
+	  <input name="<?php echo"q$id_pertanyaan"; ?>" type="radio"  value="Tidak Menjawab" checked >
+	</td>
+    <td height="30" bgcolor="#66FFFF">
+	Tidak Menjawab	</td>
+    <td height="30" bgcolor="#99FF00">	</td>
+</tr>
+<tr>
+     <td height="16" colspan="2" bgcolor="#99FF00"></td>
+     <td height="16" colspan="2" bgcolor="#99FF00">&nbsp;</td>
+</tr>
+<?php }?>
+<tr>
+    <td height="10" colspan="2" bgcolor="#99FF00">	</td>
+    <td height="10" colspan="2" bgcolor="#99FF00">
+	<input type="submit" name="submit" value="submit">	
+	<a href='tampilmapel.php' style='text-decoration:none'><input type="button" name="batal" value="batal">	</td>
+</tr>  
+</table>
+</form> 
+<? }} ?>
+</body>
+</html>
