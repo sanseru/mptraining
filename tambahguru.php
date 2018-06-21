@@ -58,7 +58,7 @@ alert('Data yang anda masukkan belum lengkap !');
 </script>";
     }else{
     $a="insert into guru values('$nip','$nama','$tlahir','$tgllahir','$jk','$agama','$alamat','$nohp','$foto')";
-    $x="insert into user values('$nama','$nip','$nipe','$foto','guru')";
+    $x="insert into user values('$nama','$nip','$nipe','$foto','guru','Trainer')";
       $y=mysqli_query($koneksi,$x);
     $b=mysqli_query($koneksi,$a);
     move_uploaded_file($_FILES['foto']['tmp_name'], "images/".$_FILES['foto']['name']);

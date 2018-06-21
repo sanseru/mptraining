@@ -55,7 +55,7 @@
         alert('Data yang anda masukkan belum lengkap !');
         </script>";
       }else{
-        $a="insert into user_in values('','$username','$nama','$tgllahir','$jk','$email','$no_tlp','$posisi','$perusahaan','$notlpper','$alamat','$nm_training','$tgl_training')";
+        $a="insert into user_in values('','$username','$nama','$tgllahir','$jk','$email','$no_tlp','$posisi','$perusahaan','$notlpper','$alamat','$nm_training','$tgl_training','0')";
         $b=mysqli_query($koneksi,$a);
         if ($b) {
           echo "<script language='javascript'>

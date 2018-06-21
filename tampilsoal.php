@@ -251,7 +251,6 @@ Jl. TB. Simatupang Kav. 41. Jakarta 12550</small></td>
 </tr>  
 </table>
 </form> 
-		<? }} ?>
 </div>
 	</body>
 </html>
