@@ -78,9 +78,9 @@
 			<div class="row">
 				<div class="recent" align="center">
 					<!-- <button  class="btn-primarys"><h3>Contact</h3></button> -->
-				<div class="contents">
-                <h2>Contact</h2>
-            </div>
+					<div class="contents">
+						<h2>Contact</h2>
+					</div>
 					<hr>
 				</div>
 			</div>
@@ -128,13 +128,10 @@
 				</div>
 				<div class="col-lg-3">
 					<div class="widget">
-						<address>
-							<h2><strong style="color:red;">24/7 HELP LINE</strong>
-								<br>
-							</address>
-							<strong style="color:red;">1500 918<br>
-								OR <br>
-							+62 21 8086 6000 </strong></h2>
+						<strong style="color:red; font-size:20px;" >24/7 HELP LINE</strong>
+
+						<h4><b style="color:red;" > <i class="fa fa-phone"></i> 1500 918</h4>
+							<h4><b style="color:red;">+62 21 8086 6000 </b></h4>
 						</div>
 						<div class="clear">
 						</div>
@@ -208,7 +205,7 @@
 							<div class="col-lg-6">
 								<div class="copyright">
 									<p>
-										 <span>&copy; Haris Lukman Hakim 2018. By </span><a href="http://medikaplaza.com" target="_blank">MedikaPlaza</a>
+										<span>&copy; Haris Lukman Hakim 2018. By </span><a href="http://medikaplaza.com" target="_blank">MedikaPlaza</a>
 									</p>
 
                             <!-- 

@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link rel="shortcut icon" href="https://www.medikaplaza.com/assets/images/smalllogo-237x104-42.png" type="image/x-icon">
+  <link rel="shortcut icon" href="https://www.medikaplaza.com/assets/images/smalllogo-237x104-42.png" type="image/x-icon">
   <title>MedikaPlaza</title>
 
   <!-- Bootstrap -->
@@ -28,44 +28,44 @@
     .color-palette {
       height: 35px;
       line-height: 35px;
-          }
+    }
   </style>
-  </head>
-  <body>
-    <header>
-      <div class="container">
-       <div class="row">
-        <nav class="navbar navbar-default" role="navigation">
-         <div class="container-fluid">
-          <div class="navbar-header">
-            <a href="index.html">
-                <img src="img/MPlogo.jpg" alt="" style="height:85px;" ></a>
+</head>
+<body>
+  <header>
+    <div class="container">
+     <div class="row">
+      <nav class="navbar navbar-default" role="navigation">
+       <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="index.html">
+            <img src="img/MPlogo.jpg" alt="" style="height:85px;" ></a>
 
-            </div>
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-    <span class="sr-only">Toggle navigation</span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-</button>
+          </div>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
 
-<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <div class="menu">
              <ul class="nav nav-tabs" role="tablist">
               <li role="presentation" ><a href="index">Home</a></li>
 
               <li role="presentation"><a href="schedule">Schedule</a></li>
               <li role="presentation" class="active"><a href="registration">Registration</a></li>
-             <!-- <li role="presentation"><a href="portfolio.html">Galery</a></li>-->
+              <!-- <li role="presentation"><a href="portfolio.html">Galery</a></li>-->
               <li role="presentation"><a href="contacts">Contact</a></li>
               <li role="presentation"><a href="login">Login</a></li>
             </ul>
           </div>
         </div>
-        </div>			
-      </nav>
-    </div>
+      </div>			
+    </nav>
   </div>
+</div>
 </header>
 
 <div class="row">
@@ -108,7 +108,7 @@
           </script>";
 
         }else{
-                    echo "<script language='javascript'>
+          echo "<script language='javascript'>
           alert('Data Tidak Berhasil Di Simpan');
           </script>";
         }
@@ -124,16 +124,16 @@
        <div class="col-sm-6">
         <select class="form-control" name="nama_mapel" id="nama_mapel">
           <option>Pilih Training...</option>
-       <?php
-           $mapel="select * from mapel";
-           $query=mysqli_query($koneksi,$mapel);
-           if ($query=== FALSE){
-             die (mysqli_connect_error());}
-             while($a=mysqli_fetch_array($query))
-             {
-              echo "<option value='$a[Nama_mapel]'>$a[Nama_mapel]</option>";
-            }
-            ?>
+          <?php
+          $mapel="select * from mapel";
+          $query=mysqli_query($koneksi,$mapel);
+          if ($query=== FALSE){
+           die (mysqli_connect_error());}
+           while($a=mysqli_fetch_array($query))
+           {
+            echo "<option value='$a[Nama_mapel]'>$a[Nama_mapel]</option>";
+          }
+          ?>
         </select>
       </div>
     </div>
@@ -142,22 +142,22 @@
      <div class="col-sm-6">
       <select class="form-control" name="jadwal" id="jadwal">
         <option>Tanggal Training...</option>
-       <?php
-           $mapel="select * from jadwal";
-           $query=mysqli_query($koneksi,$mapel);
-           if ($query=== FALSE){
-             die (mysqli_connect_error());}
-             while($a=mysqli_fetch_array($query))
-             {
-              echo "<option value='$a[jadwal]'>$a[jadwal]</option>";
-            }
-            ?>
+        <?php
+        $mapel="select * from jadwal";
+        $query=mysqli_query($koneksi,$mapel);
+        if ($query=== FALSE){
+         die (mysqli_connect_error());}
+         while($a=mysqli_fetch_array($query))
+         {
+          echo "<option value='$a[jadwal]'>$a[jadwal]</option>";
+        }
+        ?>
       </select>
     </div>
   </div>
 
 
-    <div class="form-group">
+  <div class="form-group">
    <label for="username" class="col-sm-2 control-label">Username</label>
    <div class="col-sm-10">
     <input type="text" class="form-control" id="check_username" name="username" placeholder="Masukan Username Anda....">
@@ -165,11 +165,11 @@
   </div>
 </div>
 
-  <div class="form-group">
-   <label for="nama" class="col-sm-2 control-label">Nama</label>
-   <div class="col-sm-10">
-    <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukan Nama Lengkap....">
-  </div>
+<div class="form-group">
+ <label for="nama" class="col-sm-2 control-label">Nama</label>
+ <div class="col-sm-10">
+  <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukan Nama Lengkap....">
+</div>
 </div>
 
 <!-- Date -->
@@ -259,16 +259,16 @@
 </div>
 </div>
 
-             <div class="container">
-        <div class="row">
+<div class="container">
+  <div class="row">
 
-        <div class="col-sm-4 color-palette" style="background-color:#0080C8;"></div>
-        <div class="col-sm-4 color-palette" style="background-color:#004F7B;"></div>
-        <div class="col-sm-4 color-palette" style="background-color:#38B5AA;"></div>
+    <div class="col-sm-4 color-palette" style="background-color:#0080C8;"></div>
+    <div class="col-sm-4 color-palette" style="background-color:#004F7B;"></div>
+    <div class="col-sm-4 color-palette" style="background-color:#38B5AA;"></div>
 
 
 
-    </div>
+  </div>
 </div>
 
 <footer>
@@ -318,34 +318,31 @@
       </div>
       <div class="col-lg-3">
         <div class="widget">
-          <address>
-           <h2><strong style="color:red;">24/7 HELP LINE</strong>
-                            <br>
-                        </address>
-                        <strong style="color:red;">1500 918<br>
-                OR <br>
-                +62 21 8086 6000 </strong></h2>
-        </div>
-        <div class="clear">
+          <strong style="color:red; font-size:20px;" >24/7 HELP LINE</strong>
+
+          <h4><b style="color:red;" > <i class="fa fa-phone"></i> 1500 918</h4>
+            <h4><b style="color:red;">+62 21 8086 6000 </b></h4>
+          </div>
+          <div class="clear">
+          </div>
         </div>
       </div>
     </div>
+
+    <div class="container">
+     <div class="row">
+      <hr>
+    </div>
   </div>
 
-  <div class="container">
-   <div class="row">
-    <hr>
-  </div>
-</div>
-
-<div id="sub-footer">
- <div class="container">
-  <div class="row">
-   <div class="col-lg-6">
-    <div class="copyright">
-     <p>
-       <span>&copy; Haris Lukman Hakim 2018. By </span><a href="http://medikaplaza.com" target="_blank">MedikaPlaza</a>
-    </p>
+  <div id="sub-footer">
+   <div class="container">
+    <div class="row">
+     <div class="col-lg-6">
+      <div class="copyright">
+       <p>
+         <span>&copy; Haris Lukman Hakim 2018. By </span><a href="http://medikaplaza.com" target="_blank">MedikaPlaza</a>
+       </p>
                             <!-- 
                                 All links in the footer should remain intact. 
                                 Licenseing information is available at: http://bootstraptaste.com/license/
@@ -393,7 +390,7 @@
                 </script>
 
                 <script>
-    $(document).ready(function() {
+                  $(document).ready(function() {
 
       // jumlah karakter minimal
       var jum_karakter_minimal = 3;
@@ -442,14 +439,14 @@
             check_username_result.html('<b><font color="red"><strong>'+username+'</strong> tersedia </font></b>');
 
           // jika hasilnya 0, tampilkan pesan user tidak tersedia
-          } else {
-            check_username_result.html('<font color="red" <strong><b>'+username+'</b></strong> </font> tidak tersedia/ sudah ada yang menggunakan silahkan gunakan username lainnya');         
-          }
-        });
+        } else {
+          check_username_result.html('<font color="red" <strong><b>'+username+'</b></strong> </font> tidak tersedia/ sudah ada yang menggunakan silahkan gunakan username lainnya');         
+        }
+      });
       }
 
     });
 
-    </script>
-              </body>
-              </html>
+  </script>
+</body>
+</html>
