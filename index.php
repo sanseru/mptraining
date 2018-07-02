@@ -152,7 +152,7 @@
         <div class="col-lg-6">
             <div class="contents">
                 <h2>FIRST <span>AID</span> <span>TRAINING</span></h2>
-                <h3>"Improve Your Value"</h3>
+                <h3>Improve Your Value</h3>
             </div>
         </div>
         <div class="col-lg-3">
@@ -178,7 +178,7 @@
                 <div class="contents">
                     <p>First Aid training have been develop base on curiculum as regulation and base on the requirement of work place of clients. It will support base on risk and condition on hazard on their work place area. The training is in teoritical, practical and simulation. It will exposure the participant in real situation if there any emergency situation.
                         <br> Training will deliver in Indonesian or English base on client requirement. Medika Plaza training had develop in BLS class, FAT Basic (Level 1), FAT Intermediate (Level 2), FAT Advance (Level 3).
-                        <br> Medika Plaza has register as PJK3 (Perusahaan Jasa Kesehatan Keselamatan Kerja) base on Keputusan Menteri Tenaga Kerja Republik Indonesia No. SKP. 79 /NAKER-BINWASK3/PJK3/2016 Tentang Penunjukan Perusahaan Jasa Keselamatan dan Kesehatan Kerja Direktur Jendral Pembinaan Pengawasan Ketenagakerjaan dan Keselamatan dan Kesehatan Kerja.</p>
+                        <br> Medika Plaza has register as PJK3 (Perusahaan Jasa Kesehatan Keselamatan Kerja) base on Keputusan Menteri Tenaga Kerja Republik Indonesia No. KEP. 378/BINWASK3-PNK3/KK/IV/2018 Tentang Penunjukan Perusahaan Keselamatan dan Kesehatan Kerja Direktur Jendral Pembinaan Pengawasan Ketenagakerjaan dan Keselamatan dan Kesehatan Kerja.</p>
                 </div>
             </div>
         </div>
@@ -239,13 +239,10 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="widget">
-                        <address>
-                            <h2><strong style="color:red;">24/7 HELP LINE</strong>
-                            <br>
-                        </address>
-                        <strong style="color:red;">1500 918<br>
-								OR <br>
-								+62 21 8086 6000 </strong></h2>
+                            <strong style="color:red; font-size:20px;" >24/7 HELP LINE</strong>
+
+                        <h4><b style="color:red;" > <i class="fa fa-phone"></i> 1500 918</h4>
+								<h4><b style="color:red;">+62 21 8086 6000 </b></h4>
                     </div>
                     <div class="clear">
                     </div>
