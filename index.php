@@ -145,7 +145,7 @@
     <div class="row">
         <div class="col-lg-3">
             <div class="contents">
-             <img src="img/MPlogo.jpg" alt="" style="width:250px;height:200px;">
+             <img src="img/MPlogo.jpg" alt="" style="width:250px;height:100px;">
             </div>
         </div>
 
@@ -157,7 +157,7 @@
         </div>
         <div class="col-lg-3">
             <div class="contents">
-           <img src="img/6M.png" alt="" style="width:200px;height:200px;"> 
+           <img src="img/6M.png" alt="" style="width:200px;height:100px;"> 
        </div>
         </div>
     </div>
