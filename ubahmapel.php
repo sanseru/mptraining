@@ -50,7 +50,7 @@ $jam=$_POST['jam'];
 $menit=$_POST['menit'];
 $detik=$_POST['detik'];
 
-if(empty($nama_mapel) || empty($jmlh_soal) || empty($status_soal) || empty($ulang) || empty($jam) || empty($menit) || empty($detik)){
+if(empty($nama_mapel) || empty($jmlh_soal) || empty($status_soal) || empty($ulang)){
 echo "<script language='javascript'>
 alert('Data belum lengkap');
 </script>"; 
