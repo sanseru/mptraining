@@ -23,7 +23,7 @@
 	<hr width="100%" align="center">
 	<table align="center" width="100%" cellpadding="2" >
 	<?php
-		$a="select*from siswa where Nis='$_GET[Nis]'";
+		$a="select*from user_in where username='$_GET[Nis]'";
 		$b=mysqli_query($koneksi,$a);
 		$c=mysqli_fetch_array($b);
 		
@@ -31,15 +31,19 @@
 	?>
 		<tr>
 			<td>Nama Siswa</td>
-			<td> :&nbsp;&nbsp;<b> <?php echo $c['Nama'];?></b></td>
-			<td>TTL</td>
-			<td> :&nbsp;&nbsp;<b> <?php echo $c['Tempat_lahir'];?>,<?php echo $c['Tanggal_lahir'];?></b></td>
+			<td> :&nbsp;&nbsp;<b> <?php echo $c['nama'];?></b></td>
+			<td>Email</td>
+			<td> :&nbsp;&nbsp;<b> <?php echo $c['email'];?></b></td>
 		</tr>
 		<tr>
-			<td>Nomor Pegawai</td>
-			<td> :&nbsp;&nbsp;<b> <?php echo $c['Nis'];?></b></td>
+			<td>Posisi</td>
+			<td> :&nbsp;&nbsp;<b> <?php echo $c['position'];?></b></td>
 			<td>Nomor HP</td>
-			<td> :&nbsp;&nbsp;<b> <?php echo $c['No_hp'];?></b></td>
+			<td> :&nbsp;&nbsp;<b> <?php echo $c['phone'];?></b></td>
+		</tr>
+		<tr>
+			<td>Perusahaan</td>
+			<td> :&nbsp;&nbsp;<b> <?php echo $c['company'];?></b></td>
 		</tr>
 	</table>
 	<br>
@@ -61,7 +65,7 @@
 
 		</tr>
 	<?php
-	$a="select * from tbnilai,mapel,siswa where mapel.Kd_mapel=tbnilai.Kd_mapel AND siswa.Nis=tbnilai.Nis AND tbnilai.Nis='$_GET[Nis]'";
+	$a="select * from tbnilai,mapel,user_in where mapel.Kd_mapel=tbnilai.Kd_mapel AND user_in.username=tbnilai.Nis AND tbnilai.Nis='$_GET[Nis]'";
 	$b=mysqli_query($koneksi,$a);
 	$no=1;
 	while($c=mysqli_fetch_array($b)){

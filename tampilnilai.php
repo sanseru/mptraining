@@ -52,7 +52,17 @@
 
         <tbody>
 <?php
-	$a="select * from tbnilai,mapel,siswa where mapel.Kd_mapel=tbnilai.Kd_mapel AND siswa.Nis=tbnilai.Nis AND tbnilai.Nis='$_SESSION[username]'";
+  // $a="select * from tbnilai,mapel,siswa where mapel.Kd_mapel=tbnilai.Kd_mapel AND siswa.Nis=tbnilai.Nis AND tbnilai.Nis='$_SESSION[username]'";
+  $a= "SELECT 
+    *,b.nama,c.Nama_mapel
+FROM
+    tbnilai a
+    LEFT JOIN
+    user_in b ON b.username = a.nis
+    LEFT JOIN
+    mapel c ON c.kd_mapel = a.kd_mapel
+    where a.Nis = '$_SESSION[username]'";
+
 	$b=mysqli_query($koneksi,$a);
 	$no=1;
 	while($c=mysqli_fetch_array($b)){
@@ -62,7 +72,7 @@
 								<td><?php echo $no;?></td>
 								<td><?php echo $c['Nama_mapel'];?></td>
 								<td><?php echo $c['Nis'];?></td>
-								<td><?php echo $c['Nama'];?></td>
+								<td><?php echo $c['nama'];?></td>
 								<td><?php echo $c['Salah'];?></td>
 								<td><?php echo $c['Benar'];?></td>
 								<td><?php echo $c['Nilai'];?></td>

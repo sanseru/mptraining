@@ -40,7 +40,6 @@ include "inc/sidebar.php";
 <th width="5%">No</th> 
 <th width="10%">Nis</th> 
 <th width="20%">Nama</th>  
-<th width="15%">Agama</th>
 <th width="25%">Alamat</th>
 <th width="15%">Contact</th>
 <th width="25%">Aksi</th>
@@ -48,7 +47,7 @@ include "inc/sidebar.php";
 
         <tbody>
 <?php
-  $a="select * from siswa";
+  $a="select * from user_in";
   $b=mysqli_query($koneksi,$a);
   $no=1;
   while($c=mysqli_fetch_array($b)){
@@ -56,19 +55,18 @@ include "inc/sidebar.php";
 
 <tr>
             <td><?php echo $no;?></td>
-                <td><?php echo $c['Nis'];?></td>
-                <td><?php echo $c['Nama'];?></td>
-                <td><?php echo $c['Agama'];?></td>
-                <td><?php echo $c['Alamat'];?></td>
-                <td><?php echo $c['No_hp'];?></td>
+                <td><?php echo $c['username'];?></td>
+                <td><?php echo $c['nama'];?></td>
+                <td><?php echo $c['email'];?></td>
+                <td><?php echo $c['phone'];?></td>
                 <td>
                 
                 <?php
-            $s="select*from tbnilai where Nis='$c[Nis]'";
+            $s="select*from tbnilai where Nis='$c[username]'";
             $q=mysqli_query($koneksi,$s);
             $l=mysqli_num_rows($q);
             if($l>0){
-              echo "<a href='cetak.php?Nis=$c[Nis]' target='blank'><i class='fa fa-print'></i>&nbsp;Cetak</a>";
+              echo "<a href='cetak.php?Nis=$c[username]' target='blank'><i class='fa fa-print'></i>&nbsp;Cetak</a>";
             }else{
               echo "<font  color='red'><b>-</b></font>";
               }
